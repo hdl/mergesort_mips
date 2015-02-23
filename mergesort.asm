@@ -5,6 +5,8 @@ mergesort.o:     file format elf32-bigmips
 Disassembly of section .text:
 
 00000000 <merge>:
+// #include <stdio.h>
+
 void merge(int *a, int low, int high, int mid){
    0:	27bdff20 	addiu	sp,sp,-224
    4:	afbe00dc 	sw	s8,220(sp)
@@ -55,10 +57,10 @@ void merge(int *a, int low, int high, int mid){
   98:	8fc20008 	lw	v0,8(s8)
   9c:	24420001 	addiu	v0,v0,1
   a0:	afc20008 	sw	v0,8(s8)
-            j++;
-  a4:	8fc20004 	lw	v0,4(s8)
+            i++;
+  a4:	8fc20000 	lw	v0,0(s8)
   a8:	24420001 	addiu	v0,v0,1
-  ac:	afc20004 	sw	v0,4(s8)
+  ac:	afc20000 	sw	v0,0(s8)
   b0:	0800003d 	j	f4 <merge+0xf4>
   b4:	00000000 	nop
         }else{
@@ -104,8 +106,8 @@ void merge(int *a, int low, int high, int mid){
     while(i<=mid){
  11c:	08000058 	j	160 <merge+0x160>
  120:	00000000 	nop
-        c[k]=a[j];
- 124:	8fc20004 	lw	v0,4(s8)
+        c[k]=a[i];
+ 124:	8fc20000 	lw	v0,0(s8)
  128:	00021080 	sll	v0,v0,0x2
  12c:	8fc300e0 	lw	v1,224(s8)
  130:	00621021 	addu	v0,v1,v0
@@ -133,7 +135,7 @@ void merge(int *a, int low, int high, int mid){
  168:	0043102a 	slt	v0,v0,v1
  16c:	1040ffed 	beqz	v0,124 <merge+0x124>
  170:	00000000 	nop
-        c[k]=a[j];
+        c[k]=a[i];
         k++;
         i++;
 
@@ -159,7 +161,7 @@ void merge(int *a, int low, int high, int mid){
  1ac:	8fc20004 	lw	v0,4(s8)
  1b0:	24420001 	addiu	v0,v0,1
  1b4:	afc20004 	sw	v0,4(s8)
-        c[k]=a[j];
+        c[k]=a[i];
         k++;
         i++;
 
@@ -274,13 +276,13 @@ void mergesort(int *a, int low, int high){
 000002e4 <main>:
 
 int main(){
- 2e4:	27bdffd8 	addiu	sp,sp,-40
- 2e8:	afbf0024 	sw	ra,36(sp)
- 2ec:	afbe0020 	sw	s8,32(sp)
+ 2e4:	27bdffc8 	addiu	sp,sp,-56
+ 2e8:	afbf0034 	sw	ra,52(sp)
+ 2ec:	afbe0030 	sw	s8,48(sp)
  2f0:	03a0f021 	move	s8,sp
-    int a[4];
-    a[0]=1;
- 2f4:	24020001 	li	v0,1
+    int a[8];
+    a[0]=9;
+ 2f4:	24020009 	li	v0,9
  2f8:	afc20010 	sw	v0,16(s8)
     a[1]=2;
  2fc:	24020002 	li	v0,2
@@ -291,20 +293,35 @@ int main(){
     a[3]=3;
  30c:	24020003 	li	v0,3
  310:	afc2001c 	sw	v0,28(s8)
+    a[4]=10;
+ 314:	2402000a 	li	v0,10
+ 318:	afc20020 	sw	v0,32(s8)
+    a[5]=2;
+ 31c:	24020002 	li	v0,2
+ 320:	afc20024 	sw	v0,36(s8)
+    a[6]=4;
+ 324:	24020004 	li	v0,4
+ 328:	afc20028 	sw	v0,40(s8)
+    a[7]=3;
+ 32c:	24020003 	li	v0,3
+ 330:	afc2002c 	sw	v0,44(s8)
 
-    mergesort(a, 0, 4);
- 314:	27c20010 	addiu	v0,s8,16
- 318:	00402021 	move	a0,v0
- 31c:	00002821 	move	a1,zero
- 320:	24060004 	li	a2,4
- 324:	0c000000 	jal	0 <merge>
- 328:	00000000 	nop
+    mergesort(a, 0, 8);
+ 334:	27c20010 	addiu	v0,s8,16
+ 338:	00402021 	move	a0,v0
+ 33c:	00002821 	move	a1,zero
+ 340:	24060008 	li	a2,8
+ 344:	0c000000 	jal	0 <merge>
+ 348:	00000000 	nop
+    // for(int i=0; i<8; i++){
+    //     printf("%d ", a[i]);
+    // }
     return 0;
- 32c:	00001021 	move	v0,zero
+ 34c:	00001021 	move	v0,zero
 }
- 330:	03c0e821 	move	sp,s8
- 334:	8fbf0024 	lw	ra,36(sp)
- 338:	8fbe0020 	lw	s8,32(sp)
- 33c:	27bd0028 	addiu	sp,sp,40
- 340:	03e00008 	jr	ra
- 344:	00000000 	nop
+ 350:	03c0e821 	move	sp,s8
+ 354:	8fbf0034 	lw	ra,52(sp)
+ 358:	8fbe0030 	lw	s8,48(sp)
+ 35c:	27bd0038 	addiu	sp,sp,56
+ 360:	03e00008 	jr	ra
+ 364:	00000000 	nop

@@ -1,3 +1,5 @@
+// #include <stdio.h>
+
 void merge(int *a, int low, int high, int mid){
     int i, j, k, c[50];
     i =low;
@@ -7,7 +9,7 @@ void merge(int *a, int low, int high, int mid){
         if(a[i]<a[j]){
             c[k]=a[i];
             k++;
-            j++;
+            i++;
         }else{
             c[k]=a[j];
             k++;
@@ -15,7 +17,7 @@ void merge(int *a, int low, int high, int mid){
         }
     }
     while(i<=mid){
-        c[k]=a[j];
+        c[k]=a[i];
         k++;
         i++;
 
@@ -44,13 +46,20 @@ void mergesort(int *a, int low, int high){
 }
 
 int main(){
-    int a[4];
-    a[0]=1;
+    int a[8];
+    a[0]=9;
     a[1]=2;
     a[2]=4;
     a[3]=3;
+    a[4]=10;
+    a[5]=2;
+    a[6]=4;
+    a[7]=3;
 
-    mergesort(a, 0, 4);
+    mergesort(a, 0, 8);
+    // for(int i=0; i<8; i++){
+    //     printf("%d ", a[i]);
+    // }
     return 0;
 }
 

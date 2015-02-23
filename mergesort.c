@@ -45,22 +45,9 @@ void mergesort(int *a, int low, int high){
     return ;
 }
 
-int main(){
-    int a[8];
-    a[0]=9;
-    a[1]=2;
-    a[2]=4;
-    a[3]=3;
-    a[4]=10;
-    a[5]=2;
-    a[6]=4;
-    a[7]=3;
-
-    mergesort(a, 0, 8);
-    // for(int i=0; i<8; i++){
-    //     printf("%d ", a[i]);
-    // }
-    return 0;
+void main(){
+    int a[10];
+    merge(a, 0, 10, 5);
 }
 
 

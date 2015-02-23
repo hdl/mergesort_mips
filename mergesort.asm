@@ -1,13 +1,7 @@
+.text:
 
-mergesort.o:     file format elf32-bigmips
-
-
-Disassembly of section .text:
-
-00000000 <merge>:
-// #include <stdio.h>
-
-void merge(int *a, int low, int high, int mid){
+merge:
+#void merge(int *a, int low, int high, int mid){
    0:	27bdff20 	addiu	sp,sp,-224
    4:	afbe00dc 	sw	s8,220(sp)
    8:	03a0f021 	move	s8,sp
@@ -15,21 +9,23 @@ void merge(int *a, int low, int high, int mid){
   10:	afc500e4 	sw	a1,228(s8)
   14:	afc600e8 	sw	a2,232(s8)
   18:	afc700ec 	sw	a3,236(s8)
-    int i, j, k, c[50];
-    i =low;
+#int i, j, k, c[50];
+#i =low;
   1c:	8fc200e4 	lw	v0,228(s8)
   20:	afc20000 	sw	v0,0(s8)
-    k =low;
+#k =low;
   24:	8fc200e4 	lw	v0,228(s8)
   28:	afc20008 	sw	v0,8(s8)
-    j =mid+1;
+#j =mid+1;
   2c:	8fc200ec 	lw	v0,236(s8)
   30:	24420001 	addiu	v0,v0,1
   34:	afc20004 	sw	v0,4(s8)
-    while(i<=mid && j<=high){
-  38:	0800003d 	j	f4 <merge+0xf4>
+
+#jump!
+  38:	0800003d 	j	 loop1check #f4 <merge+0xf4>
   3c:	00000000 	nop
-        if(a[i]<a[j]){
+loop1inci:
+        #if(a[i]<a[j]){
   40:	8fc20000 	lw	v0,0(s8)
   44:	00021080 	sll	v0,v0,0x2
   48:	8fc300e0 	lw	v1,224(s8)
@@ -41,9 +37,9 @@ void merge(int *a, int low, int high, int mid){
   60:	00821021 	addu	v0,a0,v0
   64:	8c420000 	lw	v0,0(v0)
   68:	0062102a 	slt	v0,v1,v0
-  6c:	10400012 	beqz	v0,b8 <merge+0xb8>
+  6c:	10400012 	beqz	v0,loop1incj #b8 <merge+0xb8>
   70:	00000000 	nop
-            c[k]=a[i];
+#c[k]=a[i];
   74:	8fc20000 	lw	v0,0(s8)
   78:	00021080 	sll	v0,v0,0x2
   7c:	8fc300e0 	lw	v1,224(s8)
@@ -53,18 +49,18 @@ void merge(int *a, int low, int high, int mid){
   8c:	00021080 	sll	v0,v0,0x2
   90:	03c21021 	addu	v0,s8,v0
   94:	ac43000c 	sw	v1,12(v0)
-            k++;
+#k++;
   98:	8fc20008 	lw	v0,8(s8)
   9c:	24420001 	addiu	v0,v0,1
   a0:	afc20008 	sw	v0,8(s8)
-            i++;
+#i++;
   a4:	8fc20000 	lw	v0,0(s8)
   a8:	24420001 	addiu	v0,v0,1
   ac:	afc20000 	sw	v0,0(s8)
-  b0:	0800003d 	j	f4 <merge+0xf4>
+  b0:	0800003d 	j	loop1check #f4 <merge+0xf4>
   b4:	00000000 	nop
-        }else{
-            c[k]=a[j];
+loop1incj:
+#else
   b8:	8fc20004 	lw	v0,4(s8)
   bc:	00021080 	sll	v0,v0,0x2
   c0:	8fc300e0 	lw	v1,224(s8)
@@ -74,39 +70,36 @@ void merge(int *a, int low, int high, int mid){
   d0:	00021080 	sll	v0,v0,0x2
   d4:	03c21021 	addu	v0,s8,v0
   d8:	ac43000c 	sw	v1,12(v0)
-            k++;
+#k++;
   dc:	8fc20008 	lw	v0,8(s8)
   e0:	24420001 	addiu	v0,v0,1
   e4:	afc20008 	sw	v0,8(s8)
-            j++;
+#j++;
   e8:	8fc20004 	lw	v0,4(s8)
   ec:	24420001 	addiu	v0,v0,1
   f0:	afc20004 	sw	v0,4(s8)
-void merge(int *a, int low, int high, int mid){
-    int i, j, k, c[50];
-    i =low;
-    k =low;
-    j =mid+1;
-    while(i<=mid && j<=high){
+
+
+loop1check:
+    #while(i<=mid && j<=high){
   f4:	8fc30000 	lw	v1,0(s8)
   f8:	8fc200ec 	lw	v0,236(s8)
   fc:	0043102a 	slt	v0,v0,v1
- 100:	14400017 	bnez	v0,160 <merge+0x160>
+ 100:	14400017 	bnez	v0,loop2check #160 <merge+0x160>
  104:	00000000 	nop
  108:	8fc30004 	lw	v1,4(s8)
  10c:	8fc200e8 	lw	v0,232(s8)
  110:	0043102a 	slt	v0,v0,v1
- 114:	1040ffca 	beqz	v0,40 <merge+0x40>
+ 114:	1040ffca 	beqz	v0, loop1inci #40 #<merge+0x40>
  118:	00000000 	nop
-            c[k]=a[j];
-            k++;
-            j++;
-        }
-    }
-    while(i<=mid){
- 11c:	08000058 	j	160 <merge+0x160>
+
+
+
+#jump   while(i<=mid){
+ 11c:	08000058 	j	loop2check #160 <merge+0x160>
  120:	00000000 	nop
-        c[k]=a[i];
+loop2inc:
+        #c[k]=a[i];
  124:	8fc20000 	lw	v0,0(s8)
  128:	00021080 	sll	v0,v0,0x2
  12c:	8fc300e0 	lw	v1,224(s8)
@@ -124,26 +117,24 @@ void merge(int *a, int low, int high, int mid){
  154:	8fc20000 	lw	v0,0(s8)
  158:	24420001 	addiu	v0,v0,1
  15c:	afc20000 	sw	v0,0(s8)
-            c[k]=a[j];
-            k++;
-            j++;
-        }
-    }
-    while(i<=mid){
+ #           c[k]=a[j];
+  #          k++;
+   #         j++;
+loop2check:
+ #   while(i<=mid){
  160:	8fc30000 	lw	v1,0(s8)
  164:	8fc200ec 	lw	v0,236(s8)
  168:	0043102a 	slt	v0,v0,v1
- 16c:	1040ffed 	beqz	v0,124 <merge+0x124>
+ 16c:	1040ffed 	beqz	v0,loop2inc #124 <merge+0x124>
  170:	00000000 	nop
-        c[k]=a[i];
-        k++;
-        i++;
 
-    }
-    while(j<=high){
- 174:	0800006e 	j	1b8 <merge+0x1b8>
+
+
+#    while(j<=high){
+ 174:	0800006e 	j	loop3check #1b8 <merge+0x1b8>
  178:	00000000 	nop
-        c[k]=a[j];
+loop3inc:
+        #c[k]=a[j];
  17c:	8fc20004 	lw	v0,4(s8)
  180:	00021080 	sll	v0,v0,0x2
  184:	8fc300e0 	lw	v1,224(s8)
@@ -166,22 +157,26 @@ void merge(int *a, int low, int high, int mid){
         i++;
 
     }
+loop3check:
     while(j<=high){
  1b8:	8fc30004 	lw	v1,4(s8)
  1bc:	8fc200e8 	lw	v0,232(s8)
  1c0:	0043102a 	slt	v0,v0,v1
- 1c4:	1040ffed 	beqz	v0,17c <merge+0x17c>
+ 1c4:	1040ffed 	beqz	v0,loop3inc #17c <merge+0x17c>
  1c8:	00000000 	nop
         c[k]=a[j];
         k++;
         j++;
     }
-    for(i=low; i<k; i++){
+
+
+#for(i=low; i<k; i++){
  1cc:	8fc200e4 	lw	v0,228(s8)
  1d0:	afc20000 	sw	v0,0(s8)
- 1d4:	08000083 	j	20c <merge+0x20c>
+ 1d4:	08000083 	j	loop4check #20c <merge+0x20c>
  1d8:	00000000 	nop
         a[i]=c[i];
+loop4inc:
  1dc:	8fc20000 	lw	v0,0(s8)
  1e0:	00021080 	sll	v0,v0,0x2
  1e4:	8fc300e0 	lw	v1,224(s8)
@@ -191,34 +186,26 @@ void merge(int *a, int low, int high, int mid){
  1f4:	03c21021 	addu	v0,s8,v0
  1f8:	8c42000c 	lw	v0,12(v0)
  1fc:	ac620000 	sw	v0,0(v1)
-    while(j<=high){
-        c[k]=a[j];
-        k++;
-        j++;
-    }
+
     for(i=low; i<k; i++){
  200:	8fc20000 	lw	v0,0(s8)
  204:	24420001 	addiu	v0,v0,1
  208:	afc20000 	sw	v0,0(s8)
+loop4check:
  20c:	8fc30000 	lw	v1,0(s8)
  210:	8fc20008 	lw	v0,8(s8)
  214:	0062102a 	slt	v0,v1,v0
- 218:	1440fff0 	bnez	v0,1dc <merge+0x1dc>
+ 218:	1440fff0 	bnez	v0,loop4inc #1dc <merge+0x1dc>
  21c:	00000000 	nop
-        a[i]=c[i];
-    }
-
-}
+#function return
  220:	03c0e821 	move	sp,s8
  224:	8fbe00dc 	lw	s8,220(sp)
  228:	27bd00e0 	addiu	sp,sp,224
  22c:	03e00008 	jr	ra
  230:	00000000 	nop
 
-00000234 <mergesort>:
-
-
-void mergesort(int *a, int low, int high){
+mergesort:
+#void mergesort(int *a, int low, int high){
  234:	27bdffe0 	addiu	sp,sp,-32
  238:	afbf001c 	sw	ra,28(sp)
  23c:	afbe0018 	sw	s8,24(sp)
